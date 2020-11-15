@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>quiz</title>
+<script type="text/javascript" src="css/jquery-3.5.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script type="text/javascript">
+	$(document).ready(function(){
+		var clicked;
+		var mark = 0;
+		clicked= false;
+		var userName;
+		$(".question ul li").click(function(){
+			if(!clicked && (($(this).css("backgroundColor") != "#00ab2d") && ($(this).parent().siblings("p").css("display") != "block")) ){
+
+
+				
+
+				clicked= true;
+			var x = ($(this).parent().siblings("ol").find("li").val());
+			var validanswer = $(this).siblings("li.ans").text();
+			var y = ($(this).val());
+			if( y == x){
+				$(this).css({
+					backgroundColor:"#00ab2d",
+					color:"#f2f2f2"
+				});
+				mark++;
+			}else{
+				$(this).css({
+					backgroundColor:"maroon",
+					color:"#f2f2f2"
+				});
+				$(this).parent().siblings("p").fadeIn("slow");
+				$(this).parent().siblings("p").find("span").text(validanswer);
+			}
+
+			}
+		});
+
+
+		$("#submit").click(function(){
+			$(".user").stop().fadeOut().animate({"left":"-1000px"},600);
+
+		$(".instruction").stop().animate({"left":"-1000px"}).animate({"left":"0px"},800).fadeIn();
+			userName =$("#name").val();
+		if(userName){
+				$("span.Name").text(userName);
+		}else{
+			$("span.Name").text("ANONYMUS");
+		}
+	});
+		$("button.start").click(function(){
+			$(".instruction").stop().fadeOut().animate({"left":"-1000px"},600);
+
+		$(".question1").stop().animate({"left":"-1000px"}).animate({"left":"0px"},800).fadeIn();
+			$(".prevques").css("opacity", "0.5");
+		$(".next-prev, .countdown").fadeIn(3000);
+	});
+			var gonext= [".question1", ".question2", ".question3", ".question4", ".question5", ".question6", ".question7", ".question8", ".question9", ".question10"]
+			var i = 0;
+
+
+	
+		$("p.nextques").click(function(){
+		if(i<=8 ){
+	$(gonext[i]).stop().fadeOut().animate({"left":"-1000px"},600);
+		$(gonext[i+1]).stop().animate({"left":"0px"},800).fadeIn();
+		i++;
+		 clicked = false;
+	}		
+	$(".prevques").css("opacity", "1");	
+	if($(".question9").css("display") =="block"){
+	$(".nextques").css("opacity", "0.5");
+	$(".end").show();	
+	}
+	});
+
+	
+	
+		$("p.prevques").click(function(){
+		if(i>=0  && ($(".question1").css("display") !="block")){
+	$(gonext[i]).stop().fadeOut().animate({"left":"-1000px"},1000);
+		$(gonext[i-1]).stop().animate({"left":"0px"},800).fadeIn();
+		i--;
+		 clicked = false;
+		}
+			$(".nextques").css("opacity", "1");
+
+	if($(".question2").css("display") =="block"){
+	$(".prevques").css("opacity", "0.5");
+		
+	}
+	});
+
+		$("li.askj").click(function(){
+		console.log(mark)
+	});
+		$(".end").click(function(){
+	$(".question, .end, .next-prev, .countdown").stop().fadeOut().animate({"left":"-1000px"},600);
+
+		$(".result").stop().animate({"left":"0px"},800).fadeIn();
+	$("span.yourmark").text(mark);
+	var timetaken =$("p.countdown").text();
+	$("span.timetaken").text(timetaken);
+
+if(mark > 6){
+	$("h2.passmark").show();
+}else{
+	$("h2.failmark").show();
+}
+	});
+
+	
+
+	});
+	$(document).ready(function(){
+		$("nav ul li.dropdown-toggle").click(function(){
+			$("nav ul.dropdownnav").stop().fadeToggle("fast");
+		});
+		$(document).click(function(event){
+			if(!$(event.target).closest("nav ul li.dropdown-toggle").length){
+				$(".dropdownnav").stop().fadeOut("fast");
+			}
+		});
+
+	});
+	$(document).ready(function(){
+
+		let ms = 0;
+		let sec = 0;
+		let min = 0;
+
+function timer() {
+    ms++;
+    if(ms >= 100){
+        sec++
+        ms = 0
+    }
+    if(sec === 60){
+        min++
+        sec = 0
+    }
+    if(min === 60){
+        ms, sec, min = 0;
+    }
+    let milli = ms < 10 ? `0`+ ms : ms;
+    let seconds = sec < 10 ? `0`+ sec : sec;
+    let minute = min < 10 ? `0` + min : min;
+
+    let timer= minute+":"+seconds+":"+milli;
+$(".countdown").text(timer);
+}
+$("button.start").click(function(){
+ time = setInterval(timer,10);
+});
+function stop(){
+    clearInterval(time)
+}
+
+	});
+
+</script>
+</head>
+<body>
+<div class="blockofintro">
+	<nav>
+		<ul>
+		
+			<li class="dropdown-toggle">Quiz <i class="fa fa-caret-down" aria-hidden="true"></i></li>
+			
+			
+		</ul>
+			<ul class="dropdownnav">
+					<li>Science quiz</li>
+					<li>Maths quiz</li>
+				</ul>
+			
+	</nav>
+	<div class="time">
+		<p class="end">End Test</p>
+	<p class="countdown" style="text-align: center;">00:00:00</p>
+	</div>
+
+<div class="hidden">
+	<div class="user">
+		<div class="userdata">
+<h2>Natural Science</h2>
+<p class="username">Your Name: <input id="name" type="text" name=""></p>
+<p><input type="submit" id="submit" name=""></p>
+	</div>
+	</div>	
+	<div class="instruction">
+		<h2>Instruction Manual</h2>
+		<ul>
+			<li><i class="fa fa-bullhorn horn" aria-hidden="true"></i> Each quiz will have 10 questions.</li>
+			<li><i class="fa fa-bullhorn horn" aria-hidden="true"></i> Once you start the quiz, countown run at background.</li>
+			<li><i class="fa fa-bullhorn horn" aria-hidden="true"></i> Countown will end at the end of the quiz</li>
+			<li><i class="fa fa-bullhorn horn" aria-hidden="true"></i> The questions are in MCQs types. And each question contain 4 option</li>
+			<li><i class="fa fa-bullhorn horn" aria-hidden="true"></i> Once you select an option for a question, validation occurs  instantly, And then allowed continue next question</li>
+			<li><i class="fa fa-bullhorn horn" aria-hidden="true"></i> AT end of the quiz result will display </li>
+			<li><i class="fa fa-bullhorn horn" aria-hidden="true"></i> Each question carry 1 Point</li>
+			<li><i class="fa fa-bullhorn horn" aria-hidden="true"></i> More than 6 points will consider Pass. </li>
+			<li><i class="fa fa-bullhorn horn" aria-hidden="true"></i> All the best</li>
+		</ul>
+
+		<button class="start">START</button>
+
+	</div>
+	<div class="question question1 ">
+		<ol>
+			<li value="1">1&#41; Who invented periodic table?</li>
+		</ol>
+		<ul>
+			<li class="ans" value="1">Dmitri Mendeleev</li>
+			<li value="0">David Joseph</li>
+			<li value="0">Rinky Martin</li>
+			<li value="0">Newton</li>
+		</ul>
+		<p class="answer"> valid answer &#9755; <span >jk</span> </p>
+	</div>
+	<div class="question question2">
+		<ol>
+			<li value="1">2&#41; Which is the most abundant gas in the earth's atmosphere?</li>
+		</ol>
+		<ul>
+			<li class="ans" value="1">Nitrogen (78.08%)</li>
+			<li value="0">Hydrogen</li>
+			<li value="0">Helium</li>
+			<li value="0">Carbon-di-oxide</li>
+	</ul>
+		<p class="answer"> valid answer &#9755; <span >jk</span> </p>
+	</div>
+	<div class="question question3">
+	<ol>
+			<li value="1">3&#41; The gas usually filled in the electric bulb is?</li>
+		</ol>
+		<ul>
+			<li class="ans" value="1">Nitrogen</li>
+			<li value="0">Hydrogen</li>
+			<li value="0">Helium</li>
+			<li value="0">Carbon-di-oxide</li>
+	</ul>
+	<p class="answer"> valid answer &#9755; <span >jk</span> </p>
+	</div>
+	<div class="question question4">
+		<ol>
+			<li value="1">4&#41; The average salinity of sea water is?</li>
+		</ol>
+		<ul>
+			<li value="0">.3%</li>
+			<li class="ans" value="1">3.5%</li>
+			<li value="0">2.5%</li>
+			<li value="0">2%</li>
+	</ul>
+	<p class="answer"> valid answer &#9755; <span >jk</span> </p>
+</div>
+	<div class="question question5">
+		<ol>
+			<li value="1">5&#41; The inert gas which is substituted for nitrogen in the air used by deep sea divers for breathing, is?</li>
+		</ol>
+		<ul>
+			<li value="0">Argon</li>
+			<li value="0">Xenon</li>
+			<li class="ans" value="1">Helium</li>
+			<li value="0">Krypton</li>
+	</ul>
+<p class="answer"> valid answer &#9755; <span >jk</span> </p>
+	</div>
+	<div class="question question6">
+		<ol>
+			<li value="1">6&#41; Most soluble in water is?</li>
+		</ol>
+		<ul>
+			<li value="0">Camphor</li>
+			<li class="ans" value="1">Sugar</li>
+			<li value="0">Sulfur</li>
+			<li value="0">Common salt</li>
+	</ul>
+<p class="answer"> valid answer &#9755; <span >jk</span> </p>
+	</div>
+	<div class="question question7">
+		<ol>
+			<li value="1">7&#41; Which gases cause acid rain?</li>
+		</ol>
+		<ul>
+			<li class="ans" value="1">Sulphur dioxide, Nitrogen oxides</li>
+			<li value="0">Hydrogen</li>
+			<li value="0">Carbon-di-oxide</li>
+			<li value="0">Helium</li>
+	</ul>
+<p class="answer"> valid answer &#9755; <span >jk</span> </p>
+	</div>
+	<div class="question question8">
+	<ol>
+			<li value="1">8&#41; Who is honoured as Father of Modern Chemistry?</li>
+		</ol>
+		<ul>
+			<li class="ans" value="1">Antoine Lavoisier</li>
+			<li value="0">David Joseph</li>
+			<li value="0">Rinky Martin</li>
+			<li value="0">Newton</li>
+	</ul>
+<p class="answer"> valid answer &#9755; <span >jk</span> </p>
+	</div>
+	<div class="question question9">
+		<ol>
+			<li value="1">9&#41; Heavy water is?</li>
+		</ol>
+		<ul>
+			<li class="ans" value="1">Deuterium oxide</li>
+			<li value="0">PH7</li>
+			<li value="0">Rain water</li>
+			<li value="0">Tritium oxide</li>
+	</ul>
+<p class="answer"> valid answer &#9755; <span >jk</span> </p>
+	</div>
+	<div class="question question10">
+		<ol>
+			<li value="1">10&#41; The element common to all acids is?</li>
+		</ol>
+		<ul>
+			<li class="ans" value="1">Hydrogen</li>
+			<li value="0">Carbon</li>
+			<li value="0">Sulphur</li>
+			<li value="0">Sodium</li>
+	</ul>
+<p class="answer"> valid answer &#9755; <span >jk</span> </p>
+	</div>
+		<div class="result ">
+		<h2 >HELLO <span class="Name">ANONYMUS</span></h2>
+		<h2 class="passmark">YOU ARE PASS</h2>
+		<h2 class="failmark">SORRY! YOU ARE FAIL</h2>
+		<p>your mark <span><span class="yourmark">10</span>&#47;10</span></p>
+		<p>Time taken: <span class="timetaken">10</span></p>
+
+	</div>
+
+</div>
+<div class="next-prev">
+	
+	<p class="nextques">Next</p>
+	<p class="prevques">Prev</p>
+
+</div>
+
+
+</div>
+
+
+</body>
+</html>
