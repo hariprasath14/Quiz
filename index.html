@@ -16,10 +16,6 @@
 		var userName;
 		$(".question ul li").click(function(){
 			if(!clicked && (($(this).css("backgroundColor") != "#00ab2d") && ($(this).parent().siblings("p").css("display") != "block")) ){
-
-
-				
-
 				clicked= true;
 			var x = ($(this).parent().siblings("ol").find("li").val());
 			var validanswer = $(this).siblings("li.ans").text();
